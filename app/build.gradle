@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.tzly.annual.app"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            //apk的后缀
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            //不必要的资源
+            shrinkResources true
+            //开启混淆
+            minifyEnabled false
+            //混淆规则文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        //推广人员用
+        promotion.initWith(buildTypes.release)
+        promotion {
+            applicationIdSuffix ".promotion"
+            versionNameSuffix "_promotion"
+        }
+    }
+
+    productFlavors {
+        //开发者版本
+        dve {
+            minSdkVersion 21
+        }
+        //应用宝
+        tzly_yyb {}
+        //360应用市场
+        tzly_360 {}
+        //华为市场
+        tzly_huawei {}
+        //小米市场
+        tzly_xiaomi {}
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("../key/tzly_annual_debug.jks")
+            storePassword "123456"
+            keyAlias "debug"
+            keyPassword "123456"
+            v2SigningEnabled false
+        }
+    }
+
+}
+
+dependencies {
+    compile project(':baselib')
+    compile project(':reslib')
+}

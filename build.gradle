@@ -1,0 +1,25 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: "config.gradle"
+//定义了 Android 编译工具的类路径。repositories中,jCenter是一个著名的 Maven 仓库。
+buildscript {
+    repositories {
+        jcenter()
+    }
+    //属于gradle 的依赖配置
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+//中定义的属性会被应用到所有 module 中
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
