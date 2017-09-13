@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -19,12 +20,13 @@ import java.util.List;
  */
 
 public abstract class JxBaseActivity extends AppCompatActivity {
-    private BaseViewState mCurrentState;
 
     /**
      * 1、当root不为null，attachToRoot为true时，
-     * 表示将resource指定的布局添加到root中，添加的过程中resource所指定的的布局的根节点的各个属性都是有效的
+     * 表示将resource布局添加到root中，resource布局的根节点各个属性都有效,将这个root作为根对象返回
+     * <p>
      * 2、如果root不为null，而attachToRoot为false的话，表示不将第一个参数所指定的View添加到root中
+     * <p>
      * 3、一个顶级View叫做DecorView，DecorView中包含一个竖直方向的LinearLayout，
      * LinearLayout由两部分组成，第一部分是标题栏，第二部分是内容栏，内容栏是一个FrameLayout
      */
@@ -32,30 +34,64 @@ public abstract class JxBaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rootView = inflater.inflate(initRootView(), null);
+        setContentView(getRootView());
+        LinearLayout parentLayout = (LinearLayout) findViewById(R.id.lay_linear);
 
-        ViewGroup parent = (ViewGroup) rootView.getParent();
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //Title
         if (!isCustomTitle()) {
-            View titleView = inflater.inflate(initTitleView(), parent, true);
+            View titleView = inflater.inflate(initTitleView(), null);
+            parentLayout.addView(titleView, new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
             bindTitleView(titleView);
         }
 
-        setContentView(rootView);
-
-        bindView(rootView);
-        View childView = inflater.inflate(initContentView(), parent, true);
-        bindChildView(childView);
+        View contentView = inflater.inflate(initContentView(), null);
+        parentLayout.addView(contentView, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        bindContentView(contentView);
 
         showViewByState(initViewState());
     }
 
-    /**
-     * 基础布局控件
-     */
-    protected int initRootView() {
+    protected int getRootView() {
         return R.layout.base_activity_jx_base;
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+
+        if (isStatusBar()) initStatusBarColor();
+    }
+
+    /**
+     * 是否自定义状态栏效果
+     */
+    protected boolean isStatusBar() {
+        return true;
+    }
+
+    /**
+     * 状态栏颜色
+     */
+    protected void initStatusBarColor() {
+        StatusBarUtils.setColor(this, iniStatusColor(), 38);
+    }
+
+    /**
+     * 状态栏颜色
+     */
+    protected int iniStatusColor() {
+        return getResources().getColor(R.color.base_colorWhite);
     }
 
     /**
@@ -76,12 +112,7 @@ public abstract class JxBaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 绑定控件
-     */
-    protected abstract void bindView(View rootView);
-
-    /**
-     * 显示的内容
+     * 显示内容
      */
     protected int initContentView() {
         return R.layout.base_custom_base_content;
@@ -90,7 +121,7 @@ public abstract class JxBaseActivity extends AppCompatActivity {
     /**
      * 绑定子控件
      */
-    protected void bindChildView(View childView) {
+    protected void bindContentView(View childView) {
 
     }
 
@@ -126,6 +157,9 @@ public abstract class JxBaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 默认为 LOADING 状态
+     */
     protected BaseViewState initViewState() {
         return BaseViewState.LOADING;
     }

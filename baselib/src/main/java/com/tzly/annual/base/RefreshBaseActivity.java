@@ -1,12 +1,17 @@
 package com.tzly.annual.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by jianghw on 2017/9/12.
@@ -15,7 +20,7 @@ import android.view.View;
  * Update day:
  */
 
-public class RefreshBaseActivity extends JxBaseActivity {
+public abstract class RefreshBaseActivity extends JxBaseActivity {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -24,26 +29,92 @@ public class RefreshBaseActivity extends JxBaseActivity {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    protected int initRootView() {
+    protected int initContentView() {
         return R.layout.base_activity_base_refresh;
     }
 
-    @Override
-    protected void bindView(View rootView) {
-        mSwipeRefreshLayout = rootView.findViewById(R.id.refresh_layout);
+    protected void bindContentView(View contentView) {
+        mSwipeRefreshLayout = contentView.findViewById(R.id.refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        mSwipeRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
+        mSwipeRefreshLayout.setDistanceToTriggerSync(500);
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        startRefreshData();
+                        mRefreshHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mRefreshHandler.sendEmptyMessage(200);
+                            }
+                        }, 3000);
+                    }
+                });
+
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View childView = inflater.inflate(initContentView(), mSwipeRefreshLayout, true);
+        View childView = inflater.inflate(initChildView(), mSwipeRefreshLayout, true);
         bindChildView(childView);
     }
 
-    protected int initContentView() {
-        return R.layout.base_custom_base_content;
+    private RefreshHandler mRefreshHandler = new RefreshHandler(this);
+
+    private static class RefreshHandler extends Handler {
+        WeakReference<Activity> weakReference;
+
+        private RefreshHandler(Activity activity) {
+            weakReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (weakReference != null) {
+                RefreshBaseActivity activity = (RefreshBaseActivity) weakReference.get();
+                if (activity != null) {
+                    switch (msg.what) {
+                        case 200:
+                            activity.endRefreshData();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
     }
 
-    protected void bindChildView(View childView) {
-
+    /**
+     * 刷新数据
+     */
+    protected void startRefreshData() {
+        mSwipeRefreshLayout.setRefreshing(true);
     }
+
+    protected void endRefreshData() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        userRefreshData();
+    }
+
+    /**
+     * 用户刷新动作操作
+     */
+    protected abstract void userRefreshData();
+
+
+    /**
+     * 子控件布局
+     */
+    protected abstract int initChildView();
+
+    /**
+     * 绑定子控件
+     */
+    protected abstract void bindChildView(View childView);
 
     @Override
     protected void onRestart() {
@@ -73,6 +144,8 @@ public class RefreshBaseActivity extends JxBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        mRefreshHandler.removeCallbacksAndMessages(null);
     }
 
     @Override

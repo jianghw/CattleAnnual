@@ -13,6 +13,12 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <!-- 畅通卡车友会 主页-->
+        <activity
+            android:name=".MainClubActivity"
+            android:label="@string/title_activity_main_club"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
