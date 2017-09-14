@@ -72,5 +72,4 @@ android {
 
 dependencies {
     compile project(':baselib')
-    compile project(':reslib')
 }

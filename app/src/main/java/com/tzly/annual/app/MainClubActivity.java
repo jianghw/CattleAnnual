@@ -3,9 +3,15 @@ package com.tzly.annual.app;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.tzly.annual.base.RefreshBaseActivity;
 import com.tzly.annual.base.StatusBarUtils;
@@ -15,6 +21,10 @@ import com.tzly.annual.base.StatusBarUtils;
  */
 public class MainClubActivity extends RefreshBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ImageView mImgBack;
+    private TextView mTvTitle;
+    private ImageView mImgHome;
 
     @Override
     protected void userRefreshData() {
@@ -39,19 +49,57 @@ public class MainClubActivity extends RefreshBaseActivity
 
     @Override
     protected void bindChildView(View childView) {
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        initTitle(childView);
+
+        RelativeLayout statusBar = (RelativeLayout) findViewById(R.id.lay_re);
+        ViewGroup.LayoutParams layoutParams = statusBar.getLayoutParams();
+        layoutParams.height = StatusBarUtils.getStatusBarHeight(getApplicationContext());
+        statusBar.setLayoutParams(layoutParams);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        Log.e("TAG", "===" + dm.heightPixels);
+        Log.e("TAG", "===" + dm.widthPixels);
+
         StatusBarUtils.setTranslucentForDrawerLayout(this, drawer, 38);
+
+    }
+
+    private void initTitle(View view) {
+        mImgBack = (ImageView) view.findViewById(R.id.img_back);
+        mImgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backClickListener();
+            }
+        });
+        mTvTitle = (TextView) view.findViewById(R.id.tv_title);
+        mImgHome = (ImageView) view.findViewById(R.id.img_home);
+        mImgHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageClickListener();
+            }
+        });
+    }
+
+    protected void backClickListener() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            drawer.openDrawer(GravityCompat.START);
+        }
+    }
+
+    /**
+     * 右边图片点击
+     */
+    protected void imageClickListener() {
     }
 
     @Override

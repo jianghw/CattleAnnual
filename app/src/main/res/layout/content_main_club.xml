@@ -9,6 +9,26 @@
     tools:context="com.tzly.annual.app.MainClubActivity"
     tools:showIn="@layout/activity_main_club">
 
+    <!--多余控件，充当statusbar-->
+    <RelativeLayout
+        android:id="@+id/lay_re"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <include layout="@layout/content_title"/>
 
+    <com.tzly.annual.base.custom.banner.ConvenientBanner
+        android:id="@+id/custom_banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y300"/>
+
+    <com.tzly.annual.base.custom.trumpet.MainScrollUpAdvertisementView
+        android:id="@+id/custom_trumpet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/img_trumpet"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"/>
 </LinearLayout>

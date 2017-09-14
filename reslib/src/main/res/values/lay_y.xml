@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--适配没有的尺寸 垂直方向-->
+    <dimen name="y19">11.39px</dimen>
+    <dimen name="y88">11.39px</dimen>
+    <dimen name="y300">11.39px</dimen>
+</resources>

@@ -6,32 +6,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp
-
-"
+        android:layout_height="@dimen/y88"
         android:background="@color/res_color_white">
         <!--标题栏-->
         <ImageView
             android:id="@+id/img_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/x88"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:scaleType="center"
             android:src="@mipmap/btn_person"/>
-
-        <TextView
-            android:id="@+id/tv_close"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:layout_toRightOf="@+id/img_back"
-            android:gravity="center"
-            android:text="关闭"
-            android:textColor="@color/res_color_black_4d"
-            android:textSize="@dimen/res_fs_16"
-            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_title"
@@ -40,28 +25,16 @@
             android:layout_centerInParent="true"
             android:textColor="@color/res_color_red_f3"
             android:textSize="@dimen/res_fs_18"
-            tools:text="畅通卡车友会"/>
+            android:text="畅通卡车友会"/>
 
         <ImageView
             android:id="@+id/img_home"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/x88"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/btn_add"
-            android:visibility="gone"/>
-
-        <TextView
-            android:id="@+id/tv_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"
-            android:textColor="@color/res_color_black_4d"
-            android:textSize="@dimen/res_fs_16"
-            android:visibility="gone"/>
+            android:src="@mipmap/btn_add"/>
 
         <TextView
             android:id="@+id/tv_line"

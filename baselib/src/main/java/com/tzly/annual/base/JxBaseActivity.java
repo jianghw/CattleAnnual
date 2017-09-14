@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -20,6 +23,14 @@ import java.util.List;
  */
 
 public abstract class JxBaseActivity extends AppCompatActivity {
+
+    private RelativeLayout mBackgroundLay;
+    private ImageView mImgBack;
+    private TextView mTvClose;
+    private TextView mTvTitle;
+    private ImageView mImgHome;
+    private TextView mTvRight;
+    private TextView mTvLine;
 
     /**
      * 1、当root不为null，attachToRoot为true时，
@@ -54,6 +65,36 @@ public abstract class JxBaseActivity extends AppCompatActivity {
         bindContentView(contentView);
 
         showViewByState(initViewState());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     protected int getRootView() {
@@ -108,7 +149,71 @@ public abstract class JxBaseActivity extends AppCompatActivity {
         return R.layout.base_custom_base_title;
     }
 
-    protected void bindTitleView(View titleView) {
+    protected void bindTitleView(View view) {
+        mBackgroundLay = (RelativeLayout) view.findViewById(R.id.lay_re_bg);
+        mImgBack = (ImageView) view.findViewById(R.id.img_back);
+        mImgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backClickListener();
+            }
+        });
+        mTvClose = (TextView) view.findViewById(R.id.tv_close);
+        mTvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeClickListener();
+            }
+        });
+        mTvTitle = (TextView) view.findViewById(R.id.tv_title);
+        mImgHome = (ImageView) view.findViewById(R.id.img_home);
+        mImgHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageClickListener();
+            }
+        });
+
+        mTvRight = (TextView) view.findViewById(R.id.tv_right);
+        mTvRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rightClickListener();
+            }
+        });
+        mTvLine = (TextView) view.findViewById(R.id.tv_line);
+    }
+
+    /**
+     * 回退监听功能
+     */
+    protected void backClickListener() {
+    }
+
+    /**
+     * 页面关闭
+     */
+    protected void closeClickListener() {
+        finish();
+    }
+
+    /**
+     * 右边图片点击
+     */
+    protected void imageClickListener() {
+    }
+
+    /**
+     * 右边文字点击
+     */
+    protected void rightClickListener() {
+    }
+
+    /**
+     * 标题栏
+     */
+    protected void titleContent(String title) {
+        if (mTvTitle != null) mTvTitle.setText(title);
     }
 
     /**
@@ -177,36 +282,6 @@ public abstract class JxBaseActivity extends AppCompatActivity {
             default:
                 break;
         }
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
