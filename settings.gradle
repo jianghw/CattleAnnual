@@ -1,1 +1,1 @@
-include ':baselib', ':app', ':reslib'
+include ':baselib', ':app', ':reslib', ':datalib'

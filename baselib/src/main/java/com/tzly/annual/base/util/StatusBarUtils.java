@@ -1,4 +1,4 @@
-package com.tzly.annual.base;
+package com.tzly.annual.base.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+
+import com.tzly.annual.base.R;
 
 /**
  * Description: 状态栏工具类

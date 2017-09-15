@@ -14,17 +14,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tzly.annual.base.RefreshBaseActivity;
-import com.tzly.annual.base.StatusBarUtils;
+import com.tzly.annual.base.custom.ScrollDrawerLayout;
+import com.tzly.annual.base.custom.image.CircleImageView;
+import com.tzly.annual.base.util.StatusBarUtils;
+import com.tzly.annual.datalib.IMainClubContract;
 
 /**
  * 畅通卡车友会
  */
 public class MainClubActivity extends RefreshBaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        IMainClubContract.IMainClubView {
 
     private ImageView mImgBack;
     private TextView mTvTitle;
     private ImageView mImgHome;
+    private CircleImageView mUserImage;
+    private TextView mUserText;
 
     @Override
     protected void userRefreshData() {
@@ -49,9 +55,15 @@ public class MainClubActivity extends RefreshBaseActivity
 
     @Override
     protected void bindChildView(View childView) {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ScrollDrawerLayout drawer = (ScrollDrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //显示item 图标色
+        navigationView.setItemIconTintList(null);
+        //获取头布局文件
+        View headerView = navigationView.getHeaderView(0);
+        mUserImage = (CircleImageView) headerView.findViewById(R.id.img_user);
+        mUserText = (TextView) headerView.findViewById(R.id.tv_user);
 
         initTitle(childView);
 
@@ -66,7 +78,6 @@ public class MainClubActivity extends RefreshBaseActivity
         Log.e("TAG", "===" + dm.widthPixels);
 
         StatusBarUtils.setTranslucentForDrawerLayout(this, drawer, 38);
-
     }
 
     private void initTitle(View view) {
@@ -87,6 +98,9 @@ public class MainClubActivity extends RefreshBaseActivity
         });
     }
 
+    /**
+     * 左边图片点击
+     */
     protected void backClickListener() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -136,15 +150,15 @@ public class MainClubActivity extends RefreshBaseActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        int id = menuItem.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_order) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_msg) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_questions) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -157,5 +171,30 @@ public class MainClubActivity extends RefreshBaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void loadingDialog() {
+
+    }
+
+    @Override
+    public void dismissDialog() {
+
+    }
+
+    @Override
+    public void refreshLoading() {
+
+    }
+
+    @Override
+    public void dismissLoading() {
+
+    }
+
+    @Override
+    public void initView() {
+
     }
 }

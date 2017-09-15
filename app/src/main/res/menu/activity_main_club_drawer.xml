@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import"/>
+            android:id="@+id/nav_order"
+            android:icon="@mipmap/icon_list"
+            android:title="我的订单"/>
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery"/>
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow"/>
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools"/>
+            android:id="@+id/nav_msg"
+            android:icon="@mipmap/icon_msg"
+            android:title="我的消息"/>
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send"/>
-        </menu>
-    </item>
+    <group
+        android:id="@+id/group_setting"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_questions"
+            android:icon="@mipmap/icon_question"
+            android:title="常见问题"/>
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@mipmap/icon_server"
+            android:title="联系客服"/>
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@mipmap/icon_info"
+            android:title="关于我们"/>
+        <item
+            android:id="@+id/nav_send"
+            android:icon="@mipmap/icon_privacy"
+            android:title="用户协议与隐私说明"/>
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@mipmap/icon_setting"
+            android:title="设置"/>
+    </group>
 
 </menu>

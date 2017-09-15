@@ -11,6 +11,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.tzly.annual.base.custom.ScrollSwipeRefreshLayout;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -22,7 +24,7 @@ import java.lang.ref.WeakReference;
 
 public abstract class RefreshBaseActivity extends JxBaseActivity {
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ScrollSwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public abstract class RefreshBaseActivity extends JxBaseActivity {
     }
 
     protected void bindContentView(View contentView) {
-        mSwipeRefreshLayout = contentView.findViewById(R.id.refresh_layout);
+        mSwipeRefreshLayout = (ScrollSwipeRefreshLayout) contentView.findViewById(R.id.refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(
                 android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
