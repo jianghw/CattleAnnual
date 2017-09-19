@@ -15,7 +15,7 @@ android {
 
         //避免资源id冲突
         resourcePrefix "res_"
-
+        //arouter用
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [moduleName: project.getName()]
